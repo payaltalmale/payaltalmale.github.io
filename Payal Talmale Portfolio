@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Payal Talmale — AI Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0D1117;
+    --panel: #121821;
+    --panel-2: #161D28;
+    --border: #232B38;
+    --text: #E6EDF3;
+    --muted: #7D8BA3;
+    --muted-2: #4E5A70;
+    --ok: #3FB950;
+    --ok-dim: #1D3A24;
+    --warn: #D4A72C;
+    --warn-dim: #3A311A;
+    --info: #58A6FF;
+    --info-dim: #17263D;
+    --fail: #F85149;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--sans);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none;}
+
+  ::selection{background:var(--info-dim); color:var(--info);}
+
+  .wrap{max-width:980px;margin:0 auto;padding:0 28px;}
+
+  /* background grid texture */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 42px 42px;
+    pointer-events:none;
+    z-index:0;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 20%, transparent 75%);
+  }
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky; top:0; z-index:50;
+    background:rgba(13,17,23,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  nav.wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height:56px;
+  }
+  .brand{
+    font-family:var(--mono); font-size:13px; font-weight:600;
+    color:var(--text); display:flex; align-items:center; gap:8px;
+  }
+  .brand .cursor{
+    display:inline-block; width:7px; height:14px; background:var(--ok);
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink{50%{opacity:0;}}
+  .navlinks{display:flex; gap:26px; font-family:var(--mono); font-size:12.5px; color:var(--muted);}
+  .navlinks a:hover{color:var(--info);}
+  @media (max-width:640px){ .navlinks{gap:14px; font-size:11px;} }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; z-index:1;
+    padding:76px 0 48px;
+    border-bottom:1px solid var(--border);
+  }
+  .status-badge{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:var(--mono); font-size:11.5px; letter-spacing:.06em;
+    color:var(--ok); background:var(--ok-dim);
+    border:1px solid rgba(63,185,80,0.35);
+    padding:5px 11px; border-radius:20px; margin-bottom:22px;
+  }
+  .status-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--ok); box-shadow:0 0 8px var(--ok);}
+
+  h1.name{
+    font-family:var(--mono); font-weight:800;
+    font-size:clamp(34px, 6vw, 58px);
+    line-height:1.05; letter-spacing:-0.01em;
+    color:var(--text);
+  }
+  .role-line{
+    margin-top:14px; font-size:17px; color:var(--muted);
+    max-width:640px;
+  }
+  .role-line b{color:var(--text); font-weight:600;}
+
+  .metric-row{
+    display:grid; grid-template-columns:repeat(4,1fr);
+    gap:1px; margin-top:40px;
+    background:var(--border);
+    border:1px solid var(--border);
+    border-radius:8px; overflow:hidden;
+  }
+  .metric{
+    background:var(--panel); padding:16px 18px;
+  }
+  .metric .val{font-family:var(--mono); font-size:22px; font-weight:700; color:var(--text);}
+  .metric .lbl{font-family:var(--mono); font-size:10.5px; color:var(--muted-2); text-transform:uppercase; letter-spacing:.07em; margin-top:4px;}
+  @media (max-width:640px){ .metric-row{grid-template-columns:repeat(2,1fr);} }
+
+  .contact-row{
+    display:flex; flex-wrap:wrap; gap:10px; margin-top:26px;
+  }
+  .pill{
+    font-family:var(--mono); font-size:12px; color:var(--muted);
+    border:1px solid var(--border); padding:7px 13px; border-radius:6px;
+    transition:.15s;
+  }
+  .pill:hover{border-color:var(--info); color:var(--info); background:var(--info-dim);}
+
+  /* ---------- SECTION GENERAL ---------- */
+  section{position:relative; z-index:1; padding:64px 0;}
+  .eyebrow{
+    font-family:var(--mono); font-size:12px; color:var(--muted-2);
+    display:flex; align-items:center; gap:10px; margin-bottom:18px;
+  }
+  .eyebrow::before{content:"$"; color:var(--info);}
+  .eyebrow .path{color:var(--info); }
+  h2.section-title{
+    font-family:var(--mono); font-size:26px; font-weight:700; margin-bottom:8px;
+  }
+  .section-sub{color:var(--muted); font-size:14.5px; margin-bottom:34px; max-width:600px;}
+
+  /* summary panel */
+  .panel{
+    background:var(--panel); border:1px solid var(--border);
+    border-radius:10px; padding:26px 28px;
+  }
+  .panel-head{
+    display:flex; align-items:center; gap:8px; margin-bottom:16px;
+    font-family:var(--mono); font-size:11px; color:var(--muted-2);
+  }
+  .traffic{display:flex; gap:6px;}
+  .traffic span{width:9px;height:9px;border-radius:50%;}
+  .traffic span:nth-child(1){background:#F85149;}
+  .traffic span:nth-child(2){background:#D4A72C;}
+  .traffic span:nth-child(3){background:#3FB950;}
+  .summary-text{color:var(--text); font-size:15px; line-height:1.75;}
+  .summary-text .kw{color:var(--info);}
+
+  /* ---------- EXPERIENCE / JOB QUEUE ---------- */
+  .job{
+    border:1px solid var(--border); border-radius:10px;
+    background:var(--panel); margin-bottom:16px; overflow:hidden;
+  }
+  .job-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 22px; flex-wrap:wrap; gap:10px;
+    border-bottom:1px solid var(--border);
+    background:var(--panel-2);
+  }
+  .job-id{font-family:var(--mono); font-size:11.5px; color:var(--muted-2);}
+  .job-title{font-weight:700; font-size:16px; margin-top:2px;}
+  .job-state{
+    font-family:var(--mono); font-size:10.5px; letter-spacing:.05em;
+    padding:4px 10px; border-radius:20px;
+    background:var(--ok-dim); color:var(--ok);
+    border:1px solid rgba(63,185,80,0.35);
+    white-space:nowrap; height:fit-content;
+  }
+  .job-body{padding:18px 22px 22px;}
+  .job-body ul{list-style:none;}
+  .job-body li{
+    position:relative; padding-left:20px; margin-bottom:10px;
+    font-size:14px; color:var(--muted);
+  }
+  .job-body li::before{
+    content:"›"; position:absolute; left:0; color:var(--info); font-weight:700;
+  }
+  .job-body li b, .job-body li .hl{color:var(--text); font-weight:600;}
+  .job-meta{
+    display:flex; gap:18px; margin-top:14px; padding-top:14px;
+    border-top:1px dashed var(--border);
+    font-family:var(--mono); font-size:11px; color:var(--muted-2); flex-wrap:wrap;
+  }
+
+  /* org line */
+  .org-line{
+    display:flex; align-items:center; justify-content:space-between;
+    margin-bottom:22px; flex-wrap:wrap; gap:8px;
+  }
+  .org-line .org{font-family:var(--mono); font-size:13px; color:var(--text);}
+  .org-line .org span{color:var(--muted-2);}
+  .org-line .dur{font-family:var(--mono); font-size:12px; color:var(--muted);}
+
+  /* ---------- SKILLS ---------- */
+  .skill-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:14px;
+  }
+  @media (max-width:760px){ .skill-grid{grid-template-columns:1fr 1fr;} }
+  @media (max-width:520px){ .skill-grid{grid-template-columns:1fr;} }
+  .skill-mod{
+    border:1px solid var(--border); border-radius:10px; padding:18px 18px 20px;
+    background:var(--panel);
+  }
+  .skill-mod .mtitle{
+    font-family:var(--mono); font-size:11px; color:var(--warn);
+    letter-spacing:.06em; margin-bottom:12px; text-transform:uppercase;
+  }
+  .tag-list{display:flex; flex-wrap:wrap; gap:6px;}
+  .tag{
+    font-size:12px; font-family:var(--mono); color:var(--muted);
+    background:var(--panel-2); border:1px solid var(--border);
+    padding:4px 9px; border-radius:5px;
+  }
+
+  /* ---------- PROJECTS ---------- */
+  .proj-grid{display:grid; grid-template-columns:1fr 1fr; gap:18px;}
+  @media (max-width:760px){ .proj-grid{grid-template-columns:1fr;} }
+  .proj-card{
+    border:1px solid var(--border); border-radius:10px; background:var(--panel);
+    padding:24px; display:flex; flex-direction:column;
+    transition:.2s; position:relative; overflow:hidden;
+  }
+  .proj-card:hover{border-color:var(--info); transform:translateY(-2px);}
+  .proj-top{display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px;}
+  .proj-name{font-weight:700; font-size:17px;}
+  .proj-link{font-family:var(--mono); font-size:11px; color:var(--info); white-space:nowrap;}
+  .proj-desc{color:var(--muted); font-size:13.5px; line-height:1.7; flex:1;}
+  .proj-desc .hl{color:var(--text);}
+  .proj-stack{display:flex; flex-wrap:wrap; gap:6px; margin-top:16px;}
+
+  /* ---------- EDUCATION ---------- */
+  .edu-row{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:18px 0; border-bottom:1px solid var(--border); flex-wrap:wrap; gap:6px;
+  }
+  .edu-row:last-child{border-bottom:none;}
+  .edu-deg{font-weight:600; font-size:15px;}
+  .edu-school{color:var(--muted); font-size:13px; margin-top:2px;}
+  .edu-right{text-align:right; font-family:var(--mono); font-size:12px; color:var(--muted-2);}
+  .edu-score{color:var(--ok); font-weight:600;}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--border); padding:46px 0 60px; position:relative; z-index:1;
+  }
+  .foot-inner{text-align:center;}
+  .foot-title{font-family:var(--mono); font-size:22px; font-weight:700; margin-bottom:10px;}
+  .foot-sub{color:var(--muted); font-size:14px; margin-bottom:28px;}
+  .foot-links{display:flex; justify-content:center; gap:14px; flex-wrap:wrap;}
+  .foot-btn{
+    font-family:var(--mono); font-size:13px; padding:10px 18px; border-radius:7px;
+    border:1px solid var(--border); background:transparent; color:var(--text);
+    transition:.15s; cursor:pointer; line-height:1.2;
+  }
+  .foot-btn.primary{background:var(--info); color:#0D1117; border-color:var(--info); font-weight:600;}
+  .foot-btn.primary:hover{opacity:.88;}
+  .foot-btn:not(.primary):hover{border-color:var(--info); color:var(--info);}
+  .foot-meta{
+    margin-top:44px; text-align:center; font-family:var(--mono); font-size:11px; color:var(--muted-2);
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="wrap">
+    <div class="brand"><span>payal@career:~$</span><span class="cursor"></span></div>
+    <div class="navlinks">
+      <a href="#experience">experience</a>
+      <a href="#skills">stack</a>
+      <a href="#projects">projects</a>
+      <a href="#education">education</a>
+      <a href="#contact">contact</a>
+    </div>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="status-badge"><span class="dot"></span> STATE: OPEN_TO_WORK</div>
+    <h1 class="name">Payal Talmale</h1>
+    <p class="role-line">
+      <b>AI Engineer</b> building generative AI systems — LLM pipelines, RAG architectures,
+      and multi-agent workflows in <b>LangChain</b>, <b>LangGraph</b>, and <b>FastAPI</b>.
+      Background in HPC monitoring and predictive analytics.
+    </p>
+
+    <div class="metric-row">
+      <div class="metric"><div class="val">1.5 yrs</div><div class="lbl">Experience</div></div>
+      <div class="metric"><div class="val">6</div><div class="lbl">Shipped systems</div></div>
+      <div class="metric"><div class="val">4</div><div class="lbl">Multi-agent projects</div></div>
+      <div class="metric"><div class="val">CDAC</div><div class="lbl">Current org</div></div>
+    </div>
+
+    <div class="contact-row">
+      <a class="pill" href="mailto:payaltalmale07@gmail.com">✉ payaltalmale07@gmail.com</a>
+      <a class="pill" href="tel:+919637069482">☎ +91 9637069482</a>
+      <a class="pill" href="https://linkedin.com/in/payal-talmale-a28a23222" target="_blank">in/payal-talmale</a>
+      <a class="pill" href="https://github.com/payaltalmale" target="_blank">↗ github.com/payaltalmale</a>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="wrap">
+    <div class="eyebrow"><span class="path">cat</span> summary.log</div>
+    <div class="panel">
+      <div class="panel-head">
+        <div class="traffic"><span></span><span></span><span></span></div>
+        <span>summary.log — read only</span>
+      </div>
+      <p class="summary-text">
+        AI Engineer with <span class="kw">1.5 years</span> of experience building Generative AI applications,
+        <span class="kw">Retrieval-Augmented Generation (RAG)</span> systems, <span class="kw">multi-agent AI</span>
+        workflows, and machine learning solutions. Skilled in Python, FastAPI, LangChain, LangGraph, Ollama, prompt
+        engineering, and vector databases — with a strong background in <span class="kw">HPC monitoring</span>,
+        predictive analytics, and production-ready AI system development.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="eyebrow"><span class="path">squeue</span> --user=payal --state=all</div>
+    <h2 class="section-title">Experience</h2>
+    <p class="section-sub">Every role and project logged like a job queue — because that's genuinely how a lot of this work runs.</p>
+
+    <div class="org-line">
+      <div class="org">Project Engineer — AI/ML &amp; Generative AI <span>@ CDAC, Pune, India</span></div>
+      <div class="dur">MAR 2025 → PRESENT</div>
+    </div>
+
+    <div class="job">
+      <div class="job-head">
+        <div>
+          <div class="job-id">JOB_ID · SLURM-DIAG-01</div>
+          <div class="job-title">SLURM Job Failure Diagnostic System</div>
+        </div>
+        <div class="job-state">COMPLETED</div>
+      </div>
+      <div class="job-body">
+        <ul>
+          <li>Built a production-ready diagnostic assistant with <b class="hl">Python, FastAPI, and PostgreSQL</b> that automatically diagnoses HPC job failures from sacct logs via REST APIs and an interactive dashboard.</li>
+          <li>Designed a hybrid pipeline combining a rule-based engine, gradient boosting classifier, and an <span class="hl">LLM-powered explanation layer (Ollama)</span> to translate SLURM exit codes into plain-language root-cause analysis.</li>
+          <li>Implemented live SLURM integration with automatic sacct fallback, and built scalable async FastAPI endpoints with SQLite caching, feedback collection, model retraining, and Docker deployment.</li>
+        </ul>
+        <div class="job-meta"><span>STACK: Python / FastAPI / PostgreSQL / Ollama / Docker</span></div>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job-head">
+        <div>
+          <div class="job-id">JOB_ID · HPC-MONITOR-02</div>
+          <div class="job-title">Real-Time HPC Infrastructure Monitoring</div>
+        </div>
+        <div class="job-state">COMPLETED</div>
+      </div>
+      <div class="job-body">
+        <ul>
+          <li>Built a real-time HPC telemetry ETL pipeline using <b class="hl">Python, Shell, Variorum, GEOPM, and Cron</b> to extract, transform, validate, and load node-level power, energy, temperature, and CPU frequency/utilization data into MySQL every 5 minutes.</li>
+          <li>Designed separate MySQL time-series tables for Power, Energy, Temperature, and Frequency with continuous data ingestion.</li>
+          <li>Developed Flask REST APIs and a Chart.js dashboard that dynamically displays newly inserted telemetry with threshold-based email alerts.</li>
+        </ul>
+        <div class="job-meta"><span>STACK: Python / Shell / MySQL / Flask / Chart.js</span></div>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job-head">
+        <div>
+          <div class="job-id">JOB_ID · TOP500-QA-03</div>
+          <div class="job-title">TOP500 Supercomputer Knowledge Assistant</div>
+        </div>
+        <div class="job-state">COMPLETED</div>
+      </div>
+      <div class="job-body">
+        <ul>
+          <li>Developed an AI-powered knowledge assistant using <b class="hl">Python, FastAPI, SQLAlchemy, and Ollama (Llama 3.2)</b> to answer natural-language queries on TOP500 and Green500 datasets.</li>
+          <li>Implemented a <span class="hl">hybrid RAG architecture</span> combining SQL retrieval for structured data and semantic vector search for descriptive queries, improving answer accuracy and relevance.</li>
+          <li>Built automated data ingestion, embedding generation, and REST APIs to support efficient retrieval, scalable querying, and context-aware responses from HPC datasets.</li>
+        </ul>
+        <div class="job-meta"><span>STACK: Python / FastAPI / SQLAlchemy / Ollama / Llama 3.2</span></div>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job-head">
+        <div>
+          <div class="job-id">JOB_ID · TEMP-PREDICT-04</div>
+          <div class="job-title">HPC Temperature Prediction</div>
+        </div>
+        <div class="job-state">COMPLETED</div>
+      </div>
+      <div class="job-body">
+        <ul>
+          <li>Built an end-to-end HPC telemetry pipeline using Python, MySQL, Pandas, and Shell to ingest node-level temperature, frequency, CPU utilization, power, and energy data from Variorum-generated JSON logs.</li>
+          <li>Engineered lag, rolling-window, difference, and time-based features, and trained <b class="hl">Random Forest, XGBoost, and LightGBM</b> regression models to predict future CPU core temperatures.</li>
+          <li>Implemented automated prediction storage and a Streamlit monitoring dashboard for real-time visualization and model-based HPC health monitoring.</li>
+        </ul>
+        <div class="job-meta"><span>STACK: Python / Pandas / XGBoost / LightGBM / Streamlit</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <div class="eyebrow"><span class="path">lscpu</span> --stack</div>
+    <h2 class="section-title">Technical Stack</h2>
+    <p class="section-sub">Modules loaded, grouped by function.</p>
+    <div class="skill-grid">
+      <div class="skill-mod">
+        <div class="mtitle">Languages</div>
+        <div class="tag-list">
+          <span class="tag">Python</span><span class="tag">R</span><span class="tag">Java</span>
+          <span class="tag">SQL</span><span class="tag">JavaScript</span><span class="tag">HTML/CSS</span>
+          <span class="tag">Shell</span>
+        </div>
+      </div>
+      <div class="skill-mod">
+        <div class="mtitle">Generative AI</div>
+        <div class="tag-list">
+          <span class="tag">LLMs</span><span class="tag">Ollama</span><span class="tag">Llama 3</span>
+          <span class="tag">GPT</span><span class="tag">Mistral</span><span class="tag">LangChain</span>
+          <span class="tag">LangGraph</span><span class="tag">AI Agents</span><span class="tag">RAG</span>
+          <span class="tag">Embeddings</span><span class="tag">Semantic Search</span><span class="tag">Hugging Face</span>
+        </div>
+      </div>
+      <div class="skill-mod">
+        <div class="mtitle">Machine Learning</div>
+        <div class="tag-list">
+          <span class="tag">Scikit-learn</span><span class="tag">TensorFlow</span><span class="tag">NumPy</span>
+          <span class="tag">Pandas</span><span class="tag">Regression</span><span class="tag">Classification</span>
+          <span class="tag">Feature Engineering</span><span class="tag">NLP</span>
+        </div>
+      </div>
+      <div class="skill-mod">
+        <div class="mtitle">Backend &amp; Databases</div>
+        <div class="tag-list">
+          <span class="tag">FastAPI</span><span class="tag">REST APIs</span><span class="tag">Pydantic</span>
+          <span class="tag">MySQL</span><span class="tag">PostgreSQL</span><span class="tag">Cassandra</span>
+          <span class="tag">MongoDB</span><span class="tag">SQLite</span><span class="tag">ChromaDB</span>
+          <span class="tag">FAISS</span><span class="tag">Pinecone</span>
+        </div>
+      </div>
+      <div class="skill-mod">
+        <div class="mtitle">Tools &amp; Ops</div>
+        <div class="tag-list">
+          <span class="tag">Git</span><span class="tag">GitHub</span><span class="tag">Docker</span>
+          <span class="tag">Grafana</span><span class="tag">Prometheus</span><span class="tag">Tableau</span>
+          <span class="tag">Power BI</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="wrap">
+    <div class="eyebrow"><span class="path">ls</span> ~/projects</div>
+    <h2 class="section-title">Personal Projects</h2>
+    <p class="section-sub">Independent builds exploring agent orchestration beyond the day job.</p>
+
+    <div class="proj-grid">
+      <div class="proj-card">
+        <div class="proj-top">
+          <div class="proj-name">AI Travel Planning System</div>
+          <a class="proj-link" href="https://github.com/payaltalmale/AI-Travel-Planning-System" target="_blank">↗ github</a>
+        </div>
+        <p class="proj-desc">
+          A multi-agent travel planner built with <span class="hl">LangGraph</span> and Streamlit, run by a
+          <span class="hl">Supervisor Agent</span> that dynamically routes requests to Flight, Hotel, Weather, and
+          Budget agents instead of a fixed pipeline. Live data flows in through the
+          <span class="hl">Model Context Protocol (MCP)</span>, connecting stdio-based Weather and AviationStack
+          MCP servers plus a hosted Tavily endpoint. Adds an LLM input guardrail, human-in-the-loop approval via
+          <span class="hl">interrupt()</span>, and PostgreSQL-backed checkpointing for resumable sessions.
+        </p>
+        <div class="proj-stack">
+          <span class="tag">LangGraph</span><span class="tag">MCP</span><span class="tag">Streamlit</span>
+          <span class="tag">PostgreSQL</span>
+        </div>
+      </div>
+
+      <div class="proj-card">
+        <div class="proj-top">
+          <div class="proj-name">Autonomous Multi-Agent AI System</div>
+          <a class="proj-link" href="https://github.com/payaltalmale/agentic-workflow-system" target="_blank">↗ github</a>
+        </div>
+        <p class="proj-desc">
+          An autonomous workflow system that turns high-level business goals into structured proposals through
+          <span class="hl">Planner, Research, Memory, Writer, Reflection, Self-Evaluation, and Rewrite</span> agents.
+          Orchestration runs on a <span class="hl">DAG with topological sorting</span> for dependency-aware task
+          execution, with human-in-the-loop approvals and reflection-based iterative quality scoring. Ships with
+          RESTful APIs, SQLite workflow memory, structured audit logging, and automated Word report generation.
+        </p>
+        <div class="proj-stack">
+          <span class="tag">FastAPI</span><span class="tag">SQLite</span><span class="tag">Ollama</span>
+          <span class="tag">Llama 3.2</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap">
+    <div class="eyebrow"><span class="path">cat</span> education.log</div>
+    <h2 class="section-title">Education</h2>
+    <div class="panel">
+      <div class="edu-row">
+        <div>
+          <div class="edu-deg">PG Diploma in Big Data Analytics</div>
+          <div class="edu-school">CDAC Sunbeam, Pune</div>
+        </div>
+        <div class="edu-right">2025<br><span class="edu-score">72.5%</span></div>
+      </div>
+      <div class="edu-row">
+        <div>
+          <div class="edu-deg">B.E. in Electronics &amp; Telecommunication</div>
+          <div class="edu-school">Amravati University</div>
+        </div>
+        <div class="edu-right">2024<br><span class="edu-score">81.41%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap foot-inner">
+    <div class="foot-title">$ ./get_in_touch.sh</div>
+    <p class="foot-sub">Open to AI Engineering roles — RAG, multi-agent systems, and LLM infrastructure.</p>
+    <div class="foot-links">
+      <button class="foot-btn primary" id="copyBtn" type="button">Copy email</button>
+      <a class="foot-btn" href="https://linkedin.com/in/payal-talmale-a28a23222" target="_blank">LinkedIn</a>
+      <a class="foot-btn" href="https://github.com/payaltalmale" target="_blank">GitHub</a>
+    </div>
+    <div class="foot-meta" id="emailFallback">payaltalmale07@gmail.com · EXIT_CODE 0</div>
+  </div>
+</footer>
+
+<script>
+  // Robust copy: works even in sandboxed previews where the Clipboard API
+  // is blocked, by falling back to a hidden textarea + execCommand.
+  (function(){
+    var btn = document.getElementById('copyBtn');
+    var meta = document.getElementById('emailFallback');
+    var email = 'payaltalmale07@gmail.com';
+    var defaultMeta = meta.textContent;
+
+    function legacyCopy(text){
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.focus();
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch(err) { ok = false; }
+      document.body.removeChild(ta);
+      return ok;
+    }
+
+    btn.addEventListener('click', function(){
+      var done = false;
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(email).then(function(){
+          meta.textContent = 'Copied ' + email + ' to clipboard';
+          setTimeout(function(){ meta.textContent = defaultMeta; }, 3000);
+        }).catch(function(){
+          done = legacyCopy(email);
+          meta.textContent = done ? ('Copied ' + email + ' to clipboard') : email;
+          setTimeout(function(){ meta.textContent = defaultMeta; }, 3000);
+        });
+      } else {
+        done = legacyCopy(email);
+        meta.textContent = done ? ('Copied ' + email + ' to clipboard') : email;
+        setTimeout(function(){ meta.textContent = defaultMeta; }, 3000);
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
